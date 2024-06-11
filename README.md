@@ -6,7 +6,7 @@ java program. This program generates secure passwords based on user input, inclu
 **Note**: This project reimplements the concepts presented in the paper "Assistance in Daily Password Generation Tasks," which can be accessed at this [link](https://dl.acm.org/doi/10.1145/3267305.3274127).
 
 ## Simplified schematic overview of the generation algorithm
-![](https://imgur.com/a/9pMkxvA)
+![](algo.png)
 
 
 ## Prerequisites
