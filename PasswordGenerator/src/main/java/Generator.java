@@ -9,8 +9,7 @@ import java.security.NoSuchProviderException;
 public class Generator {
     private static final String DEFAULT_CHARACTER_SET = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+-=[]{}|;:,.<>?/~`";
 
-    public static String getPassword(String email, String masterPassword, int PASSWORD_LENGTH, String CHARACTER_SET)
-            throws NoSuchAlgorithmException, NoSuchProviderException {
+    public static String getPassword(String email, String masterPassword, int PASSWORD_LENGTH, String CHARACTER_SET) {
         if (email == null || masterPassword == null) return null;
         if (CHARACTER_SET.equals("d"))
             CHARACTER_SET = DEFAULT_CHARACTER_SET;
