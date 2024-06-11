@@ -17,12 +17,9 @@ public class PBKDF2 {
 
             byte[] hash = skf.generateSecret(spec).getEncoded();
             return iterations + ":" + toHex(salt) + ":" + toHex(hash);
-        } catch (NoSuchAlgorithmException | NoSuchProviderException e){
-            System.out.println(e);
-        } catch (InvalidKeySpecException e) {
+        } catch (NoSuchAlgorithmException | NoSuchProviderException | InvalidKeySpecException e){
             throw new RuntimeException(e);
         }
-        return null;
     }
     private static String toHex(byte[] array) throws NoSuchAlgorithmException
     {

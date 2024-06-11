@@ -1,4 +1,3 @@
-import java.util.ArrayList;
 import java.util.Scanner;
 
 public class PasswordGenerator {
@@ -21,7 +20,7 @@ public class PasswordGenerator {
                 System.out.print("Another? (Y/N): ");
             } while (sc.next().equalsIgnoreCase("y"));
         }catch (Exception e){
-            System.out.println(e);
+            System.out.println(e.getMessage());
         }
     }
 }

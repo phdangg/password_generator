@@ -4,16 +4,10 @@ import org.apache.commons.codec.binary.Base64;
 import java.nio.charset.StandardCharsets;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
-import java.security.SecureRandom;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 
 
 public class Generator {
     private static final String DEFAULT_CHARACTER_SET = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+-=[]{}|;:,.<>?/~`";
-    private static final String DEFAULT_TEMPLATE = "naxxxxxxxx";
 
     public static String getPassword(String email, String masterPassword, int PASSWORD_LENGTH, String CHARACTER_SET)
             throws NoSuchAlgorithmException, NoSuchProviderException {

@@ -19,7 +19,6 @@ public class Salt {
         return salt;
     }
     static byte[] getSalt(byte[] bytes)
-            throws NoSuchAlgorithmException, NoSuchProviderException
     {
         if (bytes.length < 16) return null;
         if (bytes.length == 16) return bytes;
