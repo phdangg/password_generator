@@ -18,7 +18,7 @@ public class Salt {
         // return salt
         return salt;
     }
-    static byte[] getSalt(byte[] bytes)
+    static byte[] getSalt16Bytes(byte[] bytes)
     {
         if (bytes.length < 16) return null;
         if (bytes.length == 16) return bytes;
@@ -31,4 +31,12 @@ public class Salt {
         // return salt
         return salt;
     }
+    static byte[] getSalt(String ...input)
+    {
+        StringBuilder salt = new StringBuilder();
+        for (String i : input)
+            salt.append(i);
+        return salt.toString().getBytes();
+    }
+
 }
