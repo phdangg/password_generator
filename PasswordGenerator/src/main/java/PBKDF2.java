@@ -6,32 +6,18 @@ import java.security.NoSuchProviderException;
 import java.security.spec.InvalidKeySpecException;
 
 public class PBKDF2 {
-    public static String getPBKDF2WithSalt(String secret){
+    public static byte[] getPBKDF2WithSalt(String masterPassword, byte[] salt){
         try {
             int iterations = 1000;
-            char[] chars = secret.toCharArray();
-            byte[] salt = Salt.getSalt();
+            char[] chars = masterPassword.toCharArray();
 
             PBEKeySpec spec = new PBEKeySpec(chars, salt, iterations, 64*8);
-            SecretKeyFactory skf = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
+            SecretKeyFactory skf = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
 
             byte[] hash = skf.generateSecret(spec).getEncoded();
-            return iterations + ":" + toHex(salt) + ":" + toHex(hash);
-        } catch (NoSuchAlgorithmException | NoSuchProviderException | InvalidKeySpecException e){
+            return hash;
+        } catch (NoSuchAlgorithmException | InvalidKeySpecException e){
             throw new RuntimeException(e);
-        }
-    }
-    private static String toHex(byte[] array) throws NoSuchAlgorithmException
-    {
-        BigInteger bi = new BigInteger(1, array);
-        String hex = bi.toString(16);
-
-        int paddingLength = (array.length * 2) - hex.length();
-        if(paddingLength > 0)
-        {
-            return String.format("%0"  +paddingLength + "d", 0) + hex;
-        }else{
-            return hex;
         }
     }
 }
