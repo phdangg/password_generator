@@ -18,4 +18,18 @@ public class Salt {
         // return salt
         return salt;
     }
+    static byte[] getSalt(byte[] bytes)
+            throws NoSuchAlgorithmException, NoSuchProviderException
+    {
+        if (bytes.length < 16) return null;
+        if (bytes.length == 16) return bytes;
+
+        // Create array for salt
+        byte[] salt = new byte[16];
+
+        System.arraycopy(bytes, 0, salt, 0, 16);
+
+        // return salt
+        return salt;
+    }
 }
