@@ -2,8 +2,6 @@ import at.favre.lib.crypto.bcrypt.BCrypt;
 import org.apache.commons.codec.binary.Base64;
 
 import java.nio.charset.StandardCharsets;
-import java.security.NoSuchAlgorithmException;
-import java.security.NoSuchProviderException;
 
 
 public class Generator {
