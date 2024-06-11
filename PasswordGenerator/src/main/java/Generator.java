@@ -15,16 +15,19 @@ public class Generator {
         if (CHARACTER_SET.equals("d"))
             CHARACTER_SET = DEFAULT_CHARACTER_SET;
 
+        // Get salt
+        byte[] salt = Salt.getSalt(email);
+
         // Perform PBKDF2 hashing
-        String PBKDF2Secret = PBKDF2.getPBKDF2WithSalt(masterPassword);
+        byte[] PBKDF2Secret = PBKDF2.getPBKDF2WithSalt(masterPassword,salt);
 
         // Encode PBKDF2 result into special Base64
-        byte[] PBKDF2Base64Encoded = Base64.encodeBase64(PBKDF2Secret.getBytes());
+        byte[] PBKDF2Base64Encoded = Base64.encodeBase64(PBKDF2Secret);
 
 
         // Make sure PBKDF2Base64Encoded not longer than 16 characters
         // Form the salt for BCrypt
-        byte[] salt16Bytes = Salt.getSalt(PBKDF2Base64Encoded);
+        byte[] salt16Bytes = Salt.getSalt16Bytes(PBKDF2Base64Encoded);
 
         // Perform BCrypt hashing
         byte[] bcryptHash = BCrypt.withDefaults().hash(10, salt16Bytes, masterPassword.getBytes(StandardCharsets.UTF_8));
