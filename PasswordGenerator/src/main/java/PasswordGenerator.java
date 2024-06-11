@@ -2,19 +2,25 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class PasswordGenerator {
-    private static ArrayList<Option> options = new ArrayList<>();
-    private static int length = 0;
+    private static final ArrayList<Option> options = new ArrayList<>();
+
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        System.out.print("Length: ");
-        length = sc.nextInt();
-        System.out.println("Numbers (Y/N): ");
-        if (sc.next().toLowerCase() == "y"){
-            options.add(Option.Numbers);
-        }
-        System.out.println("Symbols (Y/N): ");
-        if (sc.next().toLowerCase() == "y")
-            options.add(Option.Symbols);
+        do {
+            System.out.print("Length: ");
+            int length = sc.nextInt();
+            System.out.println("Numbers (Y/N): ");
+            if (sc.next().equalsIgnoreCase("y")) {
+                options.add(Option.Numbers);
+            }
+            System.out.println("Symbols (Y/N): ");
+            if (sc.next().equalsIgnoreCase("y"))
+                options.add(Option.Symbols);
 
+            Generator generator = new Generator(length, options);
+            System.out.println(generator);
+
+            System.out.print("Another? (Y/N): ");
+        } while (sc.next().equalsIgnoreCase("y"));
     }
 }
