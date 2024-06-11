@@ -3,7 +3,7 @@ import java.security.NoSuchProviderException;
 import java.security.SecureRandom;
 
 public class Salt {
-    private static String getSalt()
+    static byte[] getSalt()
             throws NoSuchAlgorithmException, NoSuchProviderException
     {
         // Always use a SecureRandom generator
@@ -16,6 +16,6 @@ public class Salt {
         sr.nextBytes(salt);
 
         // return salt
-        return salt.toString();
+        return salt;
     }
 }
