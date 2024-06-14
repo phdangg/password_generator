@@ -1,11 +1,9 @@
 import at.favre.lib.crypto.bcrypt.BCrypt;
-import org.apache.commons.codec.binary.Base64;
-
 import java.nio.charset.StandardCharsets;
 
 
 public class Generator {
-    private byte[] hash;
+    private final byte[] hash;
     private int passwordLength;
     private static final String DEFAULT_CHARACTER_SET = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+-=[]{}|;:,.<>?/~`";
 
@@ -14,6 +12,7 @@ public class Generator {
         this.passwordLength = passwordLength;
     }
     private byte[] hashing(String masterPassword, String ...metadata){
+        // Get salt
         byte[] salt = Salt.getSalt(metadata);
 
         // Perform PBKDF2 hashing
@@ -38,33 +37,26 @@ public class Generator {
         return template.toString();
     }
 
-    public String getPassword(String email, String masterPassword, int PASSWORD_LENGTH, String CHARACTER_SET) {
-        if (email == null || masterPassword == null) return null;
-        if (CHARACTER_SET.equals("d"))
-            CHARACTER_SET = DEFAULT_CHARACTER_SET;
-
-        // Get salt
-
-
-        // Remove prefix and salt from BCrypt result to get the final byte array
-
-        byte[] finalByteArray = new byte[hash.length-7];
-        System.arraycopy(hash,7,finalByteArray,0,finalByteArray.length);
-
+    public String getPassword() {
         // Fill the template with chosen characters
+        // ...IMPLEMENT TEMPLATE
+
         StringBuilder finalPassword = new StringBuilder();
 
         // Deterministically choose characters from CHARACTER_SET
-        for (byte b : finalByteArray) {
-            if (finalPassword.length() > PASSWORD_LENGTH - 1) {
+        for (byte b : hash){
+            if (finalPassword.length() > passwordLength - 1) {
                 break;
             }
-            int index = b % CHARACTER_SET.length();
-            finalPassword.append(CHARACTER_SET.charAt(index));
+            int index = b % DEFAULT_CHARACTER_SET.length();
+            finalPassword.append(DEFAULT_CHARACTER_SET.charAt(index));
         }
 
         return finalPassword.toString();
-
     }
 
+    @Override
+    public String toString() {
+        return getPassword();
+    }
 }
