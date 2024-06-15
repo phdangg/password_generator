@@ -5,7 +5,6 @@ public class CharacterSet {
     public static final String LOWER = "abcdefghijklmnopqrstuvwxyz";
     public static final String SYMBOL = "#!\"~|@^°$%&/()[]{}=-_+*<>;:.";
     public static final String NUMBER = "0123456789";
-    public static String CHARACTER_SET;
     public static String mapCharacterGroupToCharacterSet(CharacterGroup op) {
         return switch (op) {
             case LOWER -> CharacterSet.LOWER;
@@ -20,7 +19,6 @@ public class CharacterSet {
         for (CharacterGroup op : options) {
             characterSet.append(CharacterSet.mapCharacterGroupToCharacterSet(op));
         }
-        CHARACTER_SET = characterSet.toString();
-        return CHARACTER_SET;
+        return characterSet.toString();
     }
 }
