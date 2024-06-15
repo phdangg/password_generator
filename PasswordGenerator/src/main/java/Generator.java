@@ -1,15 +1,19 @@
 import at.favre.lib.crypto.bcrypt.BCrypt;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.Collections;
 
 
 public class Generator {
+    private final ArrayList<CharacterGroup> options;
     private final byte[] hash;
     private int passwordLength;
     private static final String DEFAULT_CHARACTER_SET = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+-=[]{}|;:,.<>?/~`";
 
-    Generator(String masterPassword, int passwordLength, String ...metadata){
+    Generator(String masterPassword, int passwordLength, ArrayList<CharacterGroup> options, String ...metadata){
         this.hash = hashing(masterPassword,metadata);
         this.passwordLength = passwordLength;
+        this.options = options;
     }
     private byte[] hashing(String masterPassword, String ...metadata){
         // Get salt
@@ -31,8 +35,22 @@ public class Generator {
     // Whereas "n" denotes a number, "a" denotes a lowercase
     // letter and x denotes any symbol from the
     //character set.
-    private static String generateTemplate(int PASSWORD_LENGTH){
+    private String generateTemplate(){
         StringBuilder template = new StringBuilder();
+        for (CharacterGroup op : options){
+            if (op == CharacterGroup.LOWER)
+                template.append("a");
+            else if (op == CharacterGroup.NUMBER) {
+                template.append("n");
+            }
+            else if (op == CharacterGroup.SYMBOL) {
+                template.append("s");
+            } else if (op == CharacterGroup.UPPER) {
+                template.append("A");
+            }
+        }
+        for (int i = 0; i < passwordLength - template.length(); i++)
+            template.append("x");
 
         return template.toString();
     }
