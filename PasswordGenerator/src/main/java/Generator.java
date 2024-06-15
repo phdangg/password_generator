@@ -39,20 +39,12 @@ public class Generator {
     //character set.
     private String generateTemplate(){
         StringBuilder template = new StringBuilder();
-        for (CharacterGroup op : options){
-            if (op == CharacterGroup.LOWER)
-                template.append("a");
-            else if (op == CharacterGroup.NUMBER) {
-                template.append("n");
-            }
-            else if (op == CharacterGroup.SYMBOL) {
-                template.append("s");
-            } else if (op == CharacterGroup.UPPER) {
-                template.append("A");
-            }
+        for (CharacterGroup op : options) {
+            template.append(CharacterGroup.mapCharacterGroupToTemplate(op));
         }
-        for (int i = 0; i < passwordLength - template.length(); i++)
+        for (int i = 0; i < passwordLength - template.length(); i++) {
             template.append("x");
+        }
 
         return shuffleTemplate(template.toString());
     }
@@ -75,16 +67,32 @@ public class Generator {
         return String.valueOf(array);
     }
 
+    private String generateCharacterSet(){
+        StringBuilder characterSet = new StringBuilder();
+        for (CharacterGroup op : options) {
+            characterSet.append(CharacterSet.mapCharacterGroupToCharacterSet(op));
+        }
+        return characterSet.toString();
+    }
+
     public String getPassword() {
         // Fill the template with chosen characters
-        // ...IMPLEMENT TEMPLATE
+        String template = generateTemplate();
+
+        // Generate Character set
+        String CHARACTER_SET = generateCharacterSet();
+
 
         StringBuilder finalPassword = new StringBuilder();
+        int indexOfTemplate = 0;
 
         // Deterministically choose characters from CHARACTER_SET
         for (byte b : hash){
             if (finalPassword.length() > passwordLength - 1) {
                 break;
+            }
+            if (template.charAt(indexOfTemplate) == 'x'){
+
             }
             int index = b % DEFAULT_CHARACTER_SET.length();
             finalPassword.append(DEFAULT_CHARACTER_SET.charAt(index));
