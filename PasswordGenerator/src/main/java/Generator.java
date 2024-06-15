@@ -3,22 +3,19 @@ import at.favre.lib.crypto.bcrypt.BCrypt;
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
 
 
 public class Generator {
-    private final ArrayList<CharacterGroup> options;
     private final byte[] hash;
     private final int passwordLength;
-    private String template;
+    private final String template;
 
     Generator(String masterPassword, int passwordLength, ArrayList<CharacterGroup> options, String ...metadata){
         this.hash = hashing(masterPassword,metadata);
         this.passwordLength = passwordLength;
-        this.options = options;
         // Fill the template with chosen characters
-        this.template = generateTemplate();
+        this.template = generateTemplate(options);
         // Generate character set with chosen options
         CharacterSet.generateCharacterSet(options);
     }
@@ -42,7 +39,7 @@ public class Generator {
     // Whereas "n" denotes a number, "a" denotes a lowercase
     // letter and x denotes any symbol from the
     //character set.
-    private String generateTemplate(){
+    private String generateTemplate(ArrayList<CharacterGroup> options){
         StringBuilder template = new StringBuilder();
         for (CharacterGroup op : options) {
             template.append(CharacterGroup.mapCharacterGroupToTemplate(op));
