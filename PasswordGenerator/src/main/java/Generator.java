@@ -1,4 +1,6 @@
 import at.favre.lib.crypto.bcrypt.BCrypt;
+
+import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -52,7 +54,25 @@ public class Generator {
         for (int i = 0; i < passwordLength - template.length(); i++)
             template.append("x");
 
-        return template.toString();
+        return shuffleTemplate(template.toString());
+    }
+    private String shuffleTemplate(String s) {
+
+        BigInteger bigInt = new BigInteger(hash);
+
+        int index;
+        char temp;
+        char[] array = s.toCharArray();
+        for (int i = array.length - 1; i > 0; i--) {
+            BigInteger tempInt = BigInteger.valueOf(i);
+            BigInteger[] divAndMod = bigInt.divideAndRemainder(tempInt);
+            bigInt = divAndMod[0];
+            index = divAndMod[1].intValue();
+            temp = array[index];
+            array[index] = array[i];
+            array[i] = temp;
+        }
+        return String.valueOf(array);
     }
 
     public String getPassword() {
