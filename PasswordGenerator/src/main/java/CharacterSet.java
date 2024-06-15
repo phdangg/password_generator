@@ -4,17 +4,12 @@ public class CharacterSet {
     public static final String SYMBOL = "#!\"~|@^°$%&/()[]{}=-_+*<>;:.";
     public static final String NUMBER = "0123456789";
     public static String mapCharacterGroupToCharacterSet(CharacterGroup op) {
-        switch (op) {
-            case LOWER:
-                return CharacterSet.LOWER;
-            case NUMBER:
-                return CharacterSet.NUMBER;
-            case SYMBOL:
-                return CharacterSet.SYMBOL;
-            case UPPER:
-                return CharacterSet.UPPER;
-            default:
-                return "";
-        }
+        return switch (op) {
+            case LOWER -> CharacterSet.LOWER;
+            case NUMBER -> CharacterSet.NUMBER;
+            case SYMBOL -> CharacterSet.SYMBOL;
+            case UPPER -> CharacterSet.UPPER;
+            default -> "";
+        };
     }
 }
