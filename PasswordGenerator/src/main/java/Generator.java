@@ -3,17 +3,25 @@ import at.favre.lib.crypto.bcrypt.BCrypt;
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class Generator {
     private final ArrayList<CharacterGroup> options;
     private final byte[] hash;
     private final int passwordLength;
+    private String template;
+    private String CHARACTER_SET;
 
     Generator(String masterPassword, int passwordLength, ArrayList<CharacterGroup> options, String ...metadata){
         this.hash = hashing(masterPassword,metadata);
         this.passwordLength = passwordLength;
         this.options = options;
+        // Fill the template with chosen characters
+        this.template = generateTemplate();
+        // Generate character set with chosen options
+        this.CHARACTER_SET = CharacterSet.generateCharacterSet(options);
     }
     private byte[] hashing(String masterPassword, String ...metadata){
         // Get salt
@@ -63,40 +71,26 @@ public class Generator {
         return String.valueOf(array);
     }
 
-    private String generateCharacterSet(){
-        StringBuilder characterSet = new StringBuilder();
-        for (CharacterGroup op : options) {
-            characterSet.append(CharacterSet.mapCharacterGroupToCharacterSet(op));
-        }
-        return characterSet.toString();
-    }
-
     public String getPassword() {
-        // Fill the template with chosen characters
-        String template = generateTemplate();
-
-        // Generate Character set
-        String CHARACTER_SET = generateCharacterSet();
 
         StringBuilder finalPassword = new StringBuilder();
-        int indexOfTemplate = 0;
+        Map<Character, String> templateToCharacterSetMap = new HashMap<>();
+        templateToCharacterSetMap.put('x', CHARACTER_SET);
+        templateToCharacterSetMap.put('a', CharacterSet.LOWER);
+        templateToCharacterSetMap.put('A', CharacterSet.UPPER);
+        templateToCharacterSetMap.put('s', CharacterSet.SYMBOL);
+        templateToCharacterSetMap.put('n', CharacterSet.NUMBER);
+
         // Deterministically choose characters from CHARACTER_SET
-        for (byte b : hash){
+        int indexOfTemplate = 0;
+        for (byte b : hash) {
             if (finalPassword.length() > passwordLength - 1) {
                 break;
             }
-            int index = b % hash.length;
-            if (template.charAt(indexOfTemplate) == 'x'){
-                finalPassword.append(CHARACTER_SET.charAt(index));
-            } else if (template.charAt(indexOfTemplate) == 'a') {
-                finalPassword.append(CharacterSet.LOWER.charAt(index));
-            } else if (template.charAt(indexOfTemplate) == 'A') {
-                finalPassword.append(CharacterSet.UPPER.charAt(index));
-            } else if (template.charAt(indexOfTemplate) == 's') {
-                finalPassword.append(CharacterSet.SYMBOL.charAt(index));
-            } else if (template.charAt(indexOfTemplate) == 'n') {
-                finalPassword.append(CharacterSet.NUMBER.charAt(index));
-            }
+            char templateChar = template.charAt(indexOfTemplate);
+            String charSet = templateToCharacterSetMap.get(templateChar);
+            finalPassword.append(charSet.charAt(b % charSet.length()));
+            indexOfTemplate++;
         }
 
         return finalPassword.toString();
