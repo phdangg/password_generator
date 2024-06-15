@@ -82,20 +82,25 @@ public class Generator {
         // Generate Character set
         String CHARACTER_SET = generateCharacterSet();
 
-
         StringBuilder finalPassword = new StringBuilder();
         int indexOfTemplate = 0;
-
         // Deterministically choose characters from CHARACTER_SET
         for (byte b : hash){
             if (finalPassword.length() > passwordLength - 1) {
                 break;
             }
+            int index = b % hash.length;
             if (template.charAt(indexOfTemplate) == 'x'){
-
+                finalPassword.append(CHARACTER_SET.charAt(index));
+            } else if (template.charAt(indexOfTemplate) == 'a') {
+                finalPassword.append(CharacterSet.LOWER.charAt(index));
+            } else if (template.charAt(indexOfTemplate) == 'A') {
+                finalPassword.append(CharacterSet.UPPER.charAt(index));
+            } else if (template.charAt(indexOfTemplate) == 's') {
+                finalPassword.append(CharacterSet.SYMBOL.charAt(index));
+            } else if (template.charAt(indexOfTemplate) == 'n') {
+                finalPassword.append(CharacterSet.NUMBER.charAt(index));
             }
-            int index = b % DEFAULT_CHARACTER_SET.length();
-            finalPassword.append(DEFAULT_CHARACTER_SET.charAt(index));
         }
 
         return finalPassword.toString();
