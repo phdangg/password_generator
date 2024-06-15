@@ -12,7 +12,6 @@ public class Generator {
     private final byte[] hash;
     private final int passwordLength;
     private String template;
-    private String CHARACTER_SET;
 
     Generator(String masterPassword, int passwordLength, ArrayList<CharacterGroup> options, String ...metadata){
         this.hash = hashing(masterPassword,metadata);
@@ -21,7 +20,7 @@ public class Generator {
         // Fill the template with chosen characters
         this.template = generateTemplate();
         // Generate character set with chosen options
-        this.CHARACTER_SET = CharacterSet.generateCharacterSet(options);
+        CharacterSet.generateCharacterSet(options);
     }
     private byte[] hashing(String masterPassword, String ...metadata){
         // Get salt
@@ -72,15 +71,9 @@ public class Generator {
     }
 
     public String getPassword() {
+        Map<Character, String> templateToCharacterSetMap = CharacterSet.mapCharacterSet();
 
         StringBuilder finalPassword = new StringBuilder();
-        Map<Character, String> templateToCharacterSetMap = new HashMap<>();
-        templateToCharacterSetMap.put('x', CHARACTER_SET);
-        templateToCharacterSetMap.put('a', CharacterSet.LOWER);
-        templateToCharacterSetMap.put('A', CharacterSet.UPPER);
-        templateToCharacterSetMap.put('s', CharacterSet.SYMBOL);
-        templateToCharacterSetMap.put('n', CharacterSet.NUMBER);
-
         // Deterministically choose characters from CHARACTER_SET
         int indexOfTemplate = 0;
         for (byte b : hash) {
