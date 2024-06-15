@@ -22,7 +22,8 @@ public class CharacterSet {
         for (CharacterGroup op : options) {
             characterSet.append(CharacterSet.mapCharacterGroupToCharacterSet(op));
         }
-        return characterSet.toString();
+        CHARACTER_SET = characterSet.toString();
+        return CHARACTER_SET;
     }
     public static Map<Character,String> mapCharacterSet(){
         Map<Character, String> templateToCharacterSetMap = new HashMap<>();
