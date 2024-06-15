@@ -31,6 +31,7 @@ public class Generator {
         byte[] salt16Bytes = Salt.getSalt16Bytes(PBKDF2Secret);
 
         // Perform BCrypt hashing
+        assert salt16Bytes != null;
         return BCrypt.withDefaults().hash(10, salt16Bytes, masterPassword.getBytes(StandardCharsets.UTF_8));
     }
     //A template is a string generated for every password based
