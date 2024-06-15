@@ -6,7 +6,6 @@ public enum CharacterGroup {
             case NUMBER -> "n";
             case SYMBOL -> "s";
             case UPPER -> "A";
-            default -> "";
         };
     }
 }
