@@ -16,13 +16,12 @@ public class CharacterSet {
             case UPPER -> CharacterSet.UPPER;
         };
     }
-    public static String generateCharacterSet(ArrayList<CharacterGroup> options){
+    public static void generateCharacterSet(ArrayList<CharacterGroup> options){
         StringBuilder characterSet = new StringBuilder();
         for (CharacterGroup op : options) {
             characterSet.append(CharacterSet.mapCharacterGroupToCharacterSet(op));
         }
         CHARACTER_SET = characterSet.toString();
-        return CHARACTER_SET;
     }
     public static Map<Character,String> mapCharacterSet(){
         Map<Character, String> templateToCharacterSetMap = new HashMap<>();
