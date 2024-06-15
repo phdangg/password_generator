@@ -49,6 +49,8 @@ public class Generator {
 
         return shuffleTemplate(template.toString());
     }
+    // Fisher-Yates shuffle algorithm,
+    // the randomness is derived from a BigInteger created from a hash value
     private String shuffleTemplate(String s) {
 
         BigInteger bigInt = new BigInteger(hash);
