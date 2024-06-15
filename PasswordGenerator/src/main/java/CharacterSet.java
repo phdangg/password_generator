@@ -14,7 +14,6 @@ public class CharacterSet {
             case NUMBER -> CharacterSet.NUMBER;
             case SYMBOL -> CharacterSet.SYMBOL;
             case UPPER -> CharacterSet.UPPER;
-            default -> "";
         };
     }
     public static String generateCharacterSet(ArrayList<CharacterGroup> options){
