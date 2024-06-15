@@ -3,14 +3,12 @@ import at.favre.lib.crypto.bcrypt.BCrypt;
 import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.Collections;
 
 
 public class Generator {
     private final ArrayList<CharacterGroup> options;
     private final byte[] hash;
-    private int passwordLength;
-    private static final String DEFAULT_CHARACTER_SET = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+-=[]{}|;:,.<>?/~`";
+    private final int passwordLength;
 
     Generator(String masterPassword, int passwordLength, ArrayList<CharacterGroup> options, String ...metadata){
         this.hash = hashing(masterPassword,metadata);
@@ -42,9 +40,7 @@ public class Generator {
         for (CharacterGroup op : options) {
             template.append(CharacterGroup.mapCharacterGroupToTemplate(op));
         }
-        for (int i = 0; i < passwordLength - template.length(); i++) {
-            template.append("x");
-        }
+        template.append("x".repeat(Math.max(0, passwordLength - template.length())));
 
         return shuffleTemplate(template.toString());
     }
